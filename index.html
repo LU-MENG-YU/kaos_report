@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <title>這個是網頁標題</title>
+  <!--
+    ***** 使用說明 *****
+    1. 想換整站字體 → 直接改下方 --main-font 變數即可(找我也可以)。
+    2. 新增章節步驟：
+       (1) 複製一整個 <section>...</section> 區塊。
+       (2) 修改 id、章節標題、副標題與內容。
+       (3) 在 <nav> 的 <ul> 中加一行對應 <li><a href="#newId">章節</a></li>。
+    3. 想換圖片 → 改 <img src="..."> 的網址即可。
+    4. 想刪除 JS 高亮功能 → 刪掉最下方 <script> 整段程式即可。
+  -->
+  <!-- ================= 這下面都不用管 ================= -->
+  <style>
+    /* ===== 全站配色：白底黑字 ===== */
+    :root {
+      --main-font: "Noto Sans TC", "Helvetica", "Arial", sans-serif; /* ← 想換字體只改這裡 */
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --nav-width: 220px;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--main-font);
+      line-height: 1.6;
+    }
+
+    .wrapper {
+      display: flex;
+    }
+
+    /* ===== 左側導覽 ===== */
+    nav {
+      width: var(--nav-width);
+      position: sticky; /* 捲動時固定在側邊 */
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid #ddd;
+      padding: 1rem;
+    }
+
+    nav h2 {
+      font-size: 1.1rem;
+      margin-top: 0;
+    }
+
+    nav ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    nav li {
+      margin: 0.6rem 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      opacity: 0.7;
+    }
+
+    nav a.active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    /* ===== 右側內容 ===== */
+    main {
+      flex: 1;
+      padding: 2rem;
+      scroll-behavior: smooth; /* 點導覽時平滑滾動 */
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    section img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 1rem auto;
+    }
+
+    figure {
+      text-align: center;
+      margin: 0;
+    }
+
+    figcaption {
+      font-size: 0.9rem;
+      color: #444;
+      margin-top: 0.5rem;
+    }
+
+    /* ===== 表格基礎樣式 ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    th, td {
+      border: 1px solid #999;
+      padding: 0.5rem;
+      text-align: center;
+    }
+
+    /* 讓 <b> 文字更顯眼 */
+    b {
+      font-weight: 700;
+    }
+  </style>
+</head>
+<!-- ================= 這上面都不用管 ================= -->
+<body>
+<!-- ================= 報告模板 ================= -->
+  
+<div class="wrapper">
+  <!-- ===== 左側導覽區 ===== -->
+  <nav>
+    <h2>目錄</h2>
+    <!-- 新增章節 → 在此 <ul> 中再加 <li> 與對應 #id -->
+    <ul>
+      <li><a href="#chapter1">第一章</a></li>
+      <li><a href="#chapter2">第二章</a></li>
+      <li><a href="#chapter3">第三章(這個也要改)</a></li> <!-- 往下複製貼上改 href後面 -->
+    </ul>
+  </nav>
+
+  <!-- ===== 內容區 ===== -->
+  <main>
+    <!-- ===== 大標題 ===== -->
+    <h1>這是大標題</h1>
+
+    <!-- ********************************* Chapter 1 ********************************* -->
+    <section id="chapter1"> <!-- ===== 要加新章節先用這條id後面要自己改(跟上面目錄要一樣)，別忘了每個都要對應</section> ===== -->
+      <h2>這是第一章</h2>
+      <h3>這是第一章副標題</h3>
+
+      <!-- 圖片 + 說明 (換底下src後面的連結改成你的圖片就好，注意google雲端的圖片不是原始網址，要做轉換不然用不了) -->
+      <figure>
+        <img src="https://media.istockphoto.com/id/592031250/zh/%E7%85%A7%E7%89%87/milky-way-and-pink-light-at-mountains-night-colorful-landscape.jpg?s=612x612&w=0&k=20&c=XjvBw-fCG-ZVlOe1L7OMmw0vT66twMnKr9O2CbPch04=" alt="Milky Way" />
+        <figcaption>圖1‑1 這是圖片</figcaption><!-- 圖片說明在這裡 -->
+      </figure>
+
+      <!-- 表格範例：若要新增列或欄，照 <tr><td>...</td></tr> 格式即可 -->
+      <table>
+        <thead>
+          <tr>
+            <th>標題A</th><th>標題B</th><th>標題C</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>資料1</td><td>資料2</td><td>資料3</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 清單範例 -->
+      <p>無序清單：</p>
+      <ul>
+        <li>列點 1</li>
+        <li>列點 2</li>
+        <li>列點 3</li>
+      </ul>
+
+      <p>有序清單：</p>
+      <ol>
+        <li>步驟一</li>
+        <li>步驟二</li>
+        <li>步驟三</li>
+      </ol>
+
+      <!-- 文字段落示範，教學 <p> <br> <b>  -->
+      <p>
+        這是一行文字... 若要<strong>換行</strong>請使用 &lt;br&gt;，例如：<br />
+        這是第二行。想<strong>加粗</strong>就用 &lt;b&gt;粗體&lt;/b&gt; 或 &lt;strong&gt;。
+      </p>
+    </section>
+
+    <!-- ********************************* Chapter 2 ********************************* -->
+    <section id="chapter2">
+      <h2>這是第二章</h2>
+      <h3>這是第二章副標題</h3>
+
+      <!-- ===== 示範多行文字 ===== -->
+      <!-- ===== <p>這樣比較好看 ===== -->
+      <p>
+        （前言）本研究旨在探討 <b>β-metric 圖</b> 中 Budgeted Path Cover 問題之近似演算法改進。
+        我們重新檢視傳統的三層 layering 策略，提出一個雙層剪枝機制來降低冗餘邊。
+        透過理論推導與實驗驗證，證明在 β ∈ [0.5, 1] 時，近似比可由 3 下降至 2。
+      </p>
+      
+      <p>
+        研究方法分為三部分：<br>
+        1. <b>理論分析</b>—強化原始 LP 之 relaxed 不等式，推導緊致界限。<br>
+        2. <b>演算法設計</b>—結合雙層剪枝與遞迴縮減，達成線性時間近似。<br>
+        3. <b>實驗評估</b>—於隨機生成與真實物流網路資料集上，比較 baseline 與改進方法的成本與時間。<br>
+      </p>
+      
+      <p>
+        主要結果顯示：<br>
+        • 在所有 β 值下，提案均優於 baseline；<br>
+        • 當 β 趨近 0.5 時，成本節省幅度可達 18%；<br>
+        • 在大型圖 (|V| ≥ 500) 情況下，執行時間仍維持 O(n log n)。<br>
+      </p>
+      
+      <!-- ===== 但你要這樣也可以(一條幹到底) ===== -->
+      <p>結論上，本研究不僅在理論上縮小近似界，更為智慧物流與路徑規劃提供可行的實務工具。未來將延伸至多倉庫場景，探討動態需求下的即時調度策略。</p>
+      <!-- ===== 示範多行文字 ===== -->
+
+      <figure>
+        <img src="https://media.istockphoto.com/id/592031250/zh/%E7%85%A7%E7%89%87/milky-way-and-pink-light-at-mountains-night-colorful-landscape.jpg?s=612x612&w=0&k=20&c=XjvBw-fCG-ZVlOe1L7OMmw0vT66twMnKr9O2CbPch04=" alt="Milky Way" />
+        <figcaption>圖2‑1 這是圖片</figcaption>
+      </figure>
+
+      <!-- 其餘內容格式同上 -->
+    </section>
+
+    <!-- ********************************* Chapter 3 ********************************* -->
+    <section id="chapter3">
+      <h2>這是第三章</h2>
+      <h3>這是第三章副標題</h3>
+
+      <figure>
+        <img src="https://media.istockphoto.com/id/592031250/zh/%E7%85%A7%E7%89%87/milky-way-and-pink-light-at-mountains-night-colorful-landscape.jpg?s=612x612&w=0&k=20&c=XjvBw-fCG-ZVlOe1L7OMmw0vT66twMnKr9O2CbPch04=" alt="Milky Way" />
+        <figcaption>圖3‑1 這是圖片</figcaption>
+      </figure>
+
+      <!-- 其餘內容格式同上 -->
+    </section>
+  </main>
+</div>
+
+<!-- ===== 底下不用管 ===== -->
+<script>
+  const navLinks = document.querySelectorAll('nav a');
+  const sections = document.querySelectorAll('main section');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const id = entry.target.getAttribute('id');
+      const navLink = document.querySelector(`nav a[href="#${id}"]`);
+      if (entry.isIntersecting) {
+        navLink.classList.add('active');
+      } else {
+        navLink.classList.remove('active');
+      }
+    });
+  }, { threshold: 0.25 });
+
+  sections.forEach((sec) => observer.observe(sec));
+</script>
+<!-- ================= 結束 ================= -->
+</body>
+</html>
