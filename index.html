@@ -107,21 +107,65 @@
 
     /* ===== 表格基礎樣式 ===== */
     table {
-      width: 100%;
+      width: 80%;
+      margin: 0 auto;
       border-collapse: collapse;
-      margin: 1rem 0;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
 
     th, td {
-      border: 1px solid #999;
-      padding: 0.5rem;
-      text-align: center;
+      padding: 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #003366;
+      color: white;
+      font-size: 18px;
+    }
+
+    td {
+      background-color: #fff;
+      font-size: 16px;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f0f4f8;
+    }
+
+    td i {
+      margin-right: 8px;
+      color: #003366;
     }
 
     /* 讓 <b> 文字更顯眼 */
     b {
       font-weight: 700;
     }
+
+    @keyframes fadeInSlide {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    button {
+      background-color: #003366;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #005599;
+    }  
   </style>
 </head>
 <!-- ================= 這上面都不用管 ================= -->
@@ -456,90 +500,6 @@
       <h2>自我職涯發展優勢劣勢分析</h2>
       <h3>優勢</h3>
 
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <title>優勢與劣勢分析表</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body {
-      font-family: "Arial", sans-serif;
-      background-color: #f9f9f9;
-      text-align: center;
-      padding: 50px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    .table-wrapper {
-      display: none;
-      animation: fadeInSlide 1s ease forwards;
-    }
-
-    table {
-      width: 80%;
-      margin: 0 auto;
-      border-collapse: collapse;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    th, td {
-      padding: 15px;
-      text-align: left;
-    }
-
-    th {
-      background-color: #003366;
-      color: white;
-      font-size: 18px;
-    }
-
-    td {
-      background-color: #fff;
-      font-size: 16px;
-    }
-
-    tr:nth-child(even) td {
-      background-color: #f0f4f8;
-    }
-
-    td i {
-      margin-right: 8px;
-      color: #003366;
-    }
-
-    @keyframes fadeInSlide {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    button {
-      background-color: #003366;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-bottom: 30px;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background-color: #005599;
-    }
-  </style>
-</head>
-<body>
-
   <h2>優勢與劣勢分析表</h2>
   <button onclick="toggleTable()">點擊展開 / 收起表格</button>
 
@@ -567,22 +527,7 @@
       </tbody>
     </table>
   </div>
-
-  <script>
-    function toggleTable() {
-      const tableBox = document.getElementById("tableBox");
-      if (tableBox.style.display === "none" || tableBox.style.display === "") {
-        tableBox.style.display = "block";
-      } else {
-        tableBox.style.display = "none";
-      }
-    }
-  </script>
-
-</body>
-</html>
-
-         
+   
 <p>
   <b>時間規劃能力</b><br>
 自小接受運動員的訓練，同時也被要求課業表現不能落後，長期處於多重角色的狀態中，<br>
@@ -730,6 +675,16 @@
   }, { threshold: 0.25 });
 
   sections.forEach((sec) => observer.observe(sec));
+
+  function toggleTable() {
+      const tableBox = document.getElementById("tableBox");
+      if (tableBox.style.display === "none" || tableBox.style.display === "") {
+        tableBox.style.display = "block";
+      } else {
+        tableBox.style.display = "none";
+      }
+    }
+  
 </script>
 <!-- ================= 結束 ================= -->
 </body>
