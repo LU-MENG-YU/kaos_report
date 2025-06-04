@@ -5,22 +5,32 @@
   <title>高旻紘 期末成果發表</title>
   <!--
     ***** 使用說明 *****
-    1. 想換整站字體 → 直接改下方 --main-font 變數即可(找我也可以)。
-    2. 新增章節步驟：
-       (1) 複製一整個 <section>...</section> 區塊。
-       (2) 修改 id、章節標題、副標題與內容。
-       (3) 在 <nav> 的 <ul> 中加一行對應 <li><a href="#newId">章節</a></li>。
-    3. 想換圖片 → 改 <img src="..."> 的網址即可。
-    4. 想刪除 JS 高亮功能 → 刪掉最下方 <script> 整段程式即可。
+    1. 若要更換全站字體，請直接修改 --main-font 變數即可。
+    2. 新增/刪除章節：
+       (1) 複製整個 <section>...</section> 區塊，修改 id、標題與內容；
+       (2) 在 <nav> 的 <ul> 中加/刪對應的 <li><a href="#newId">章節</a></li> 項目。
+    3. 若要更換圖片，請直接改 <img src="..."> 的網址即可。
+    4. 若不需要 JS 高亮功能，可以移除底部的 <script> 區段。
   -->
-  <!-- ================= 這下面都不用管 ================= -->
+
+  <!-- ================= 核心樣式 ================= -->
   <style>
-    /* ===== 全站配色：白底黑字 ===== */
+    /* ===== 全站變數設定 ===== */
     :root {
-      --main-font: "Noto Sans TC", "Helvetica", "Arial", sans-serif; /* ← 想換字體只改這裡 */
-      --bg-color: #ffffff;
-      --text-color: #000000;
-      --nav-width: 220px;
+      --main-font: "Noto Sans TC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      --accent-color: #00457c;      /* 主色 (深藍) */
+      --accent-light: #f0f4f8;      /* 淺灰背景 */
+      --bg-color: #ffffff;          /* 頁面背景 */
+      --text-color: #2b2b2b;        /* 文字顏色 */
+      --nav-width: 240px;           /* 側邊選單寬度 */
+      --section-padding: 2rem;      /* 區塊內邊距 */
+      --border-radius: 8px;         /* 如果需要圓角 */
+      --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 通用陰影 */
+    }
+
+    /* ===== 頁面整體 ===== */
+    * {
+      box-sizing: border-box;
     }
 
     html, body {
@@ -30,8 +40,26 @@
       color: var(--text-color);
       font-family: var(--main-font);
       line-height: 1.6;
+      scroll-behavior: smooth;
     }
 
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      line-height: 1.3;
+    }
+
+    /* ===== 外層容器 ===== */
     .wrapper {
       display: flex;
     }
@@ -39,17 +67,19 @@
     /* ===== 左側導覽 ===== */
     nav {
       width: var(--nav-width);
-      position: sticky; /* 捲動時固定在側邊 */
+      position: sticky;
       top: 0;
       height: 100vh;
-      overflow-y: auto;
+      background: var(--accent-light);
       border-right: 1px solid #ddd;
-      padding: 1rem;
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
     }
 
     nav h2 {
-      font-size: 1.1rem;
-      margin-top: 0;
+      font-size: 1.2rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
     }
 
     nav ul {
@@ -58,91 +88,155 @@
     }
 
     nav li {
-      margin: 0.6rem 0;
+      margin: 0.8rem 0;
     }
 
     nav a {
-      text-decoration: none;
+      font-size: 1rem;
       color: var(--text-color);
-      transition: 0.2s;
+      padding: 0.4rem 0.6rem;
+      display: block;
+      border-radius: 4px;
+      transition: background 0.2s, color 0.2s;
     }
 
     nav a:hover {
-      opacity: 0.7;
+      background: var(--accent-color);
+      color: #ffffff;
     }
 
     nav a.active {
+      background: var(--accent-color);
+      color: #ffffff;
       font-weight: bold;
-      text-decoration: underline;
     }
 
-    /* ===== 右側內容 ===== */
+    /* ===== 右側主要內容 ===== */
     main {
       flex: 1;
-      padding: 2rem;
-      scroll-behavior: smooth; /* 點導覽時平滑滾動 */
+      padding: var(--section-padding) 3rem;
+      max-width: auto;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--accent-light);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+
+    header p.subtitle {
+      font-size: 1rem;
+      color: #555;
+      margin: 0;
     }
 
     section {
-      margin-bottom: 3rem;
+      margin-bottom: 4rem;
+      padding: 1.5rem;
+      background: #fafafa;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      animation: fadeInSlide 0.6s ease-out both;
     }
 
-    section img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 1rem auto;
+    section h2 {
+      font-size: 1.8rem;
+      color: var(--accent-color);
+      border-left: 4px solid var(--accent-color);
+      padding-left: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    section h3 {
+      font-size: 1.4rem;
+      color: var(--accent-color);
+      margin: 1rem 0 0.5rem 0;
+    }
+
+    section p {
+      font-size: 1rem;
+      margin: 0.8rem 0;
+      color: var(--text-color);
     }
 
     figure {
       text-align: center;
-      margin: 0;
+      margin: 1.5rem 0;
     }
 
     figcaption {
       font-size: 0.9rem;
-      color: #444;
-      margin-top: 0.5rem;
+      color: #666;
+      margin-top: 0.3rem;
     }
 
-    /* ===== 表格基礎樣式 ===== */
+    /* ===== 按鈕樣式 ===== */
+    button {
+      background-color: var(--accent-color);
+      color: #ffffff;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #006bb3;
+      transform: translateY(-2px);
+    }
+
+    /* ===== 表格樣式 ===== */
     table {
-      width: 80%;
-      margin: 0 auto;
+      width: 100%;
+      margin: 1.5rem 0;
       border-collapse: collapse;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      box-shadow: var(--box-shadow);
+      border-radius: var(--border-radius);
+      overflow: hidden;
     }
 
     th, td {
-      padding: 15px;
+      padding: 0.8rem 1rem;
       text-align: left;
     }
 
     th {
-      background-color: #003366;
-      color: white;
-      font-size: 18px;
+      background-color: var(--accent-color);
+      color: #ffffff;
+      font-size: 1.1rem;
     }
 
     td {
-      background-color: #fff;
-      font-size: 16px;
+      background-color: #ffffff;
+      font-size: 1rem;
+      color: var(--text-color);
     }
 
     tr:nth-child(even) td {
-      background-color: #f0f4f8;
+      background-color: var(--accent-light);
     }
 
-    td i {
-      margin-right: 8px;
-      color: #003366;
+    tr:hover td {
+      background-color: #e6f2ff;
     }
 
-    /* 讓 <b> 文字更顯眼 */
+    /* ===== 文字強調 ===== */
     b {
       font-weight: 700;
+      color: var(--accent-color);
     }
 
+    /* ===== 區塊漸入動畫 ===== */
     @keyframes fadeInSlide {
       0% {
         opacity: 0;
@@ -153,525 +247,494 @@
         transform: translateY(0);
       }
     }
-    
-    button {
-      background-color: #003366;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-bottom: 30px;
-      font-size: 16px;
+
+    /* ===== 響應式：手機/平板 ===== */
+    @media (max-width: 768px) {
+      nav {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+      }
+
+      main {
+        padding: 1.5rem 1.5rem;
+      }
+
+      .wrapper {
+        flex-direction: column;
+      }
     }
 
-    button:hover {
-      background-color: #005599;
-    }  
   </style>
 </head>
-<!-- ================= 這上面都不用管 ================= -->
+
 <body>
-<!-- ================= 報告模板 ================= -->
-  
-<div class="wrapper">
-  <!-- ===== 左側導覽區 ===== -->
-  <nav>
-    <h2>目錄</h2>
-    <!-- 新增章節 → 在此 <ul> 中再加 <li> 與對應 #id -->
-    <ul>
-      <li><a href="#chapter1">自介（履歷）</a></li>
-      <li><a href="#chapter2">對講者說的話</a></li>
-      <li><a href="#chapter3">心得（心智圖）</a></li> 
-      <li><a href="#chapter4">UCAN前後測分析結果</a></li> <!-- 往下複製貼上改 href後面 -->
-      <li><a href="#chapter5">自我職涯發展優勢劣勢分析</a></li>
-      <li><a href="#chapter6">未來實習/求職規劃</a></li> 
-      
-                                                      
-    </ul>
-  </nav>
+  <div class="wrapper">
+    <!-- ===== 側邊導覽 ===== -->
+    <nav>
+      <h2>目錄</h2>
+      <ul>
+        <li><a href="#chapter1">自介（履歷）</a></li>
+        <li><a href="#chapter2">對講者說的話</a></li>
+        <li><a href="#chapter3">心得（心智圖）</a></li> 
+        <li><a href="#chapter4">UCAN 前後測分析結果</a></li>
+        <li><a href="#chapter5">自我職涯發展優勢劣勢分析</a></li>
+        <li><a href="#chapter6">未來實習/求職規劃</a></li> 
+      </ul>
+    </nav>
 
-  <!-- ===== 內容區 ===== -->
-  <main>
-    <!-- ===== 大標題 ===== -->
-    <h1>高旻紘</h1>
+    <!-- ===== 主要內容 ===== -->
+    <main>
+      <!-- ===== 標題區 ===== -->
+      <header>
+        <h1>高旻紘</h1>
+        <p class="subtitle">期末成果發表</p>
+      </header>
 
-    <!-- ********************************* Chapter 1 ********************************* -->
-    <section id="chapter1"> <!-- ===== 要加新章節先用這條id後面要自己改(跟上面目錄要一樣)，別忘了每個都要對應</section> ===== -->
-      <h2>自介</h2>
-      <p>
-        關於我
-      </p>
+      <!-- ********************************* Chapter 1 ********************************* -->
+      <section id="chapter1">
+        <h2>自介</h2>
+        <p>
+          關於我<br>
+          擁有 10 年運動背景並雙主修心理系，在學期間對於時間安排有一定想法。<br>
+          我能兼顧打球與學業，並且重視交友，所以對於時間安排及抗壓能力高度重視與執行。<br>
+          大學四年期間取得雙學位並申請上研究所，同時在球場上也有不錯的成績與教球經驗。
+        </p>
+        <h3>履歷</h3>
+        <figure>
+          <img src="https://github.com/LU-MENG-YU/kaos_report/blob/main/KAORESUME.jpg?raw=true" alt="履歷表">
+          <figcaption>個人履歷</figcaption>
+        </figure>
+      </section>
 
-      <p>
+      <!-- ********************************* Chapter 2 ********************************* -->
+      <section id="chapter2">
+        <h2>對講者說的話</h2>
 
-        擁有10年運動背景並雙主修心理系在學期間對於時間安排有一定想法，<br>
-        可以兼顧打球學業兼顧並且也重視交友，所以對於時間安排或是抗壓能力高度重視與執行，<br>
-        大學四年期間4年拿到雙學位並申請上研究所並在球場上也有一定的成績與教球的工作
-      </p>
-      
-      <h3>履歷</h3>
+        <h3>To 王美花部長</h3>
+        <p>
+          在觀察經濟變動成為常態的過程中，我逐漸體會到：唯一不變的，就是專注把自己的事做到最好。<br>
+          這樣的想法成為我面對大學畢業前迷茫階段的重要支撐。即使尚未明確下一步方向，我仍選擇全力以赴完成當下的任務，<br>
+          並在不斷變動的世界中尋找屬於自己的定位與機會。
+        </p>
 
-      <!-- 圖片 + 說明 (換底下src後面的連結改成你的圖片就好，注意google雲端的圖片不是原始網址，要做轉換不然用不了) -->
-      <figure>
-        <img src="https://github.com/LU-MENG-YU/kaos_report/blob/main/KAORESUME.jpg?raw=true" alt="履歷表" >
-        
-      </figure>
-     
-    </section>
+        <h3>To 萬冠麗執行長</h3>
+        <p>
+          在觀察經濟變動成為常態的過程中，我逐漸體會到：唯一不變的，就是專注把自己的事做到最好。<br>
+          這樣的想法成為我面對大學畢業前迷茫階段的重要支撐。即使尚未明確下一步方向，<br>
+          我仍選擇全力以赴完成當下的任務，並在不斷變動的世界中尋找屬於自己的定位與機會。
+        </p>
 
-    <!-- ********************************* Chapter 2 ********************************* -->
-    <section id="chapter2">
-      <h2>對講者想說的話</h2>
-      <h3>To王美花部長</h3>
-<p>在觀察經濟變動成為常態的過程中，我逐漸體會到：唯一不變的，就是專注把自己的事做到最好。<br>
-  這樣的想法成為我面對大學畢業前迷茫階段的重要支撐。即使尚未明確下一步方向，我仍選擇全力以赴完成當下的任務，<br>
-  並在不斷變動的世界中尋找屬於自己的定位與機會。
-</p>
+        <h3>To 王亞綸董事長</h3>
+        <p>
+          分享了品牌經營的關鍵：要讓品牌深入人心。我特別認同他舉的例子——當我想吃湯圓時，<br>
+          第一個想到的就是「桂冠湯圓」。這讓我理解，無論是創業還是組織經營，都必須先建立明確的使命與願景，<br>
+          才能在競爭激烈的市場中站穩腳步，獲得消費者與大眾的認同。
+        </p>
 
- <h3>To萬冠麗執行長</h3>
+        <h3>To 劉慧謹前董事長</h3>
+        <p>
+          在演講中提到的「先投胎」觀點非常引人深思。她指出，面對變動快速的未來，我們必須像 π 一樣，<br>
+          不斷延伸與增長自己的多元技能。這番話給了我極大的鼓勵，也讓我明白即使我現在就讀的科系不是熱門選項，<br>
+          只要持續跨領域學習與精進，就能打造出屬於自己的競爭力。
+        </p>
 
-<p>
-  在觀察經濟變動成為常態的過程中，我逐漸體會到：唯一不變的，就是專注把自己的事做到最好。<br>
-  這樣的想法成為我面對大學畢業前迷茫階段的重要支撐。即使尚未明確下一步方向，<br>
-  我仍選擇全力以赴完成當下的任務，並在不斷變動的世界中尋找屬於自己的定位與機會。<br>
-</p>
+        <h3>To 陳素甜董事長</h3>
+        <p>
+          謝謝甜董帶來精彩的分享，令我印象最深刻的一句話是：「正門走不通，後門不想走，側門如何開創。」<br>
+          這句話為我目前對職涯規劃的猶豫打開了新的思路，也提醒我在面對困境時，不應受限於既有的框架，<br>
+          而要勇於探索新的可能。她也提到 AI 的應用，提醒我們要主動去運用 AI，而不是被 AI 所操控，這對於我們這一代人具有深遠的意義。
+        </p>
+      </section>
 
-      <h3>To王亞綸董事長</h3>
+      <!-- ********************************* Chapter 3 ********************************* -->
+      <section id="chapter3">
+        <h2>心智圖</h2>
+        <figure>
+          <img src="https://github.com/LU-MENG-YU/kaos_report/blob/main/IMG_0780.jpeg?raw=true" alt="心智圖">
+          <figcaption>心得心智圖</figcaption>
+        </figure>
+      </section>
 
-    <p>
-      分享了品牌經營的關鍵：要讓品牌深入人心。我特別認同他舉的例子——當我想吃湯圓時，<br>
-      第一個想到的就是「桂冠湯圓」。這讓我理解，無論是創業還是組織經營，都必須先建立明確的使命與願景，<br>
-      才能在競爭激烈的市場中站穩腳步，獲得消費者與大眾的認同。<br>
-    </p>
+      <!-- ********************************* Chapter 4 ********************************* -->
+      <section id="chapter4">
+        <h2>UCAN 前後測分析結果</h2>
+        <h3>職業興趣探索</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>前測主要興趣職涯類型</th>
+              <th>後測主要興趣職涯類型</th>
+              <th>興趣趨勢分析</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>第一高分</td>
+              <td>教育與訓練</td>
+              <td>休閒與觀光旅遊</td>
+              <td>興趣重心從教育擴展至觀光與活動相關領域</td>
+            </tr>
+            <tr>
+              <td>第二高分</td>
+              <td>個人及社會服務</td>
+              <td>教育與訓練</td>
+              <td>教育職涯持續受到關注</td>
+            </tr>
+            <tr>
+              <td>第三高分</td>
+              <td>藝文與影音傳播</td>
+              <td>建築營造、資訊科技</td>
+              <td>表現出跨領域探索意願</td>
+            </tr>
+            <tr>
+              <td>其他偏好</td>
+              <td>資訊科技、司法</td>
+              <td>司法、安全、STEM 類型</td>
+              <td>興趣範圍由單一轉為多元，偏好實務與應用導向領域增強</td>
+            </tr>
+          </tbody>
+        </table>
 
-         <h3>To劉慧謹前董事長</h3>
-      <p>
-        在演講中提到的「先投胎」觀點非常引人深思。她指出，面對變動快速的未來，我們必須像π一樣，<br>
-        不斷延伸與增長自己的多元技能。這番話給了我極大的鼓勵，也讓我明白即使我現在就讀的科系不是熱門選項，<br>
-        只要持續跨領域學習與精進，就能打造出屬於自己的競爭力。
-      </p>
+        <p>
+          後測結果顯示職涯興趣類型更多元化，從原先偏重社會與藝術類型，轉向包括「旅遊休閒」、「資訊科技」、「司法」、<br>
+          「建築營造」等應用與實作取向領域，代表對未來職涯的開放度提升，且樂於嘗試不同職場風格。
+        </p>
 
-       <h3>To陳素甜董事長</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>職業性格代碼</th>
+              <th>前測結果</th>
+              <th>後測結果</th>
+              <th>變化分析</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>第一位</td>
+              <td>R（實用型）</td>
+              <td>I（研究型）</td>
+              <td>思考導向興趣增加，追求理性與知性</td>
+            </tr>
+            <tr>
+              <td>第二位</td>
+              <td>I（研究型）</td>
+              <td>R（實用型）</td>
+              <td>實作動手能力仍為核心特質之一</td>
+            </tr>
+            <tr>
+              <td>第三位</td>
+              <td>E（企業行）</td>
+              <td>S（社會型）</td>
+              <td>保留助人與合作特質，整體性格穩定</td>
+            </tr>
+            <tr>
+              <td>合併代碼</td>
+              <td>RIE</td>
+              <td>IRS</td>
+              <td>職業性格類型變化不大但順序轉換，顯示個人風格更偏向思辨與探索</td>
+            </tr>
+          </tbody>
+        </table>
 
-      <p>
-        謝謝甜董帶來精彩的分享，令我印象最深刻的一句話是：「正門走不通，後門不想走，側門如何開創。」<br>
-        這句話為我目前對職涯規劃的猶豫打開了新的思路，也提醒我在面對困境時，不應受限於既有的框架，<br>
-        而要勇於探索新的可能。她也提到 AI 的應用，提醒我們要主動去運用 AI，而不是被 AI 所操控，這對於我們這一代人具有深遠的意義。<br>
-      </p>
+        <p>
+          在三月時本來是 RIE（實用型、研究型、企業行）並且實分高達 10 分（pr97），<br>
+          到五月轉換為 IRS（研究型、實用型、社會型），但實務分數依然較高 94 > 研究型 90。<br>
+          因此以分數來看，符合我小時候學習木工、樂高，到現在兼職網球教練的實務應用傾向；<br>
+          我也喜歡與人相處互動，所以目前可以多找類似性質的職業。
+        </p>
 
-       </section>
-    
-<!-- ********************************* Chapter 3 ********************************* -->
- 
-       <section id="chapter3">
-   <h2>心智圖</h2>
-         
-       <figure>
-        <img src="https://github.com/LU-MENG-YU/kaos_report/blob/main/IMG_0780.jpeg?raw=true" alt="心智圖">
-        
-      </figure>
-      
-    </section>
+        <h3>職場共通職能</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>職能項目</th>
+              <th>前測分數</th>
+              <th>後測分數</th>
+              <th>能力等級</th>
+              <th>分析說明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>人際互動</td>
+              <td>4.5</td>
+              <td>4.5</td>
+              <td>優勢能力</td>
+              <td>穩定保持高分，展現良好人際理解與互動技巧</td>
+            </tr>
+            <tr>
+              <td>問題解決</td>
+              <td>4.0</td>
+              <td>4.33</td>
+              <td>優勢能力</td>
+              <td>有成長，代表面對問題時能冷靜分析、有效回應</td>
+            </tr>
+            <tr>
+              <td>持續學習</td>
+              <td>4.0</td>
+              <td>4.29</td>
+              <td>優勢能力</td>
+              <td>積極進取，對學習新知具熱忱與實踐動力</td>
+            </tr>
+            <tr>
+              <td>創新</td>
+              <td>3.71</td>
+              <td>4.0</td>
+              <td>優勢能力</td>
+              <td>表現進步，顯示具備創意思維與應變能力</td>
+            </tr>
+            <tr>
+              <td>團隊合作</td>
+              <td>3.86</td>
+              <td>3.86</td>
+              <td>中等能力</td>
+              <td>穩定發展，仍可強化主動領導與協調溝通能力</td>
+            </tr>
+            <tr>
+              <td>溝通表達</td>
+              <td>3.71</td>
+              <td>3.86</td>
+              <td>中等能力</td>
+              <td>稍有提升，未來可加強書面與正式表達能力</td>
+            </tr>
+            <tr>
+              <td>工作責任及紀律</td>
+              <td>3.86</td>
+              <td>3.86</td>
+              <td>中等能力</td>
+              <td>穩定，建議提升抗壓與時間管理能力</td>
+            </tr>
+            <tr>
+              <td>資訊科技應用</td>
+              <td>3.43</td>
+              <td>3.5</td>
+              <td>中等偏低</td>
+              <td>得分最低，須補強數位工具操作與資訊素養</td>
+            </tr>
+          </tbody>
+        </table>
 
-    <!-- ********************************* Chapter 4 ********************************* -->
-    <section id="chapter4">
-      <h2>UCAN前後測分析結果</h2>
-      <h3>職業興趣探索</h3>
+        <p>
+          本次測驗結果顯示，我在人際互動、問題解決、創新與持續學習等能力表現亮眼，屬於「優勢能力」範疇，<br>
+          顯示我具備良好的人際敏感度、解決問題的條理性以及學習動力，對未來職場適應與表現都有利。<br>
+          而在團隊合作、溝通表達、工作責任與紀律等方面，屬於中等水準，代表我在基本的職場合作與溝通上已具備能力，<br>
+          但在角色扮演上仍偏向執行者，需加強主動發言與團體整合能力，以展現領導潛能。<br>
+          「資訊科技應用」項目為前後測最低分，顯示對文書處理、簡報製作、雲端協作或數據處理等工具應用尚待加強，<br>
+          建議積極選修相關課程並實作練習，提升數位工作熟練度與效率。
+        </p>
 
-      <table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>項目</th>
-      <th>前測主要興趣職涯類型</th>
-      <th>後測主要興趣職涯類型</th>
-      <th>興趣趨勢分析</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>第一高分</td>
-      <td>教育與訓練</td>
-      <td>休閒與觀光旅遊</td>
-      <td>興趣重心從教育擴展至觀光與活動相關領域</td>
-    </tr>
-    <tr>
-      <td>第二高分</td>
-      <td>個人及社會服務</td>
-      <td>教育與訓練</td>
-      <td>教育職涯持續受到關注</td>
-    </tr>
-    <tr>
-      <td>第三高分</td>
-      <td>藝文與影音傳播</td>
-      <td>建築營造、資訊科技</td>
-      <td>表現出跨領域探索意願</td>
-    </tr>
-    <tr>
-      <td>其他偏好</td>
-      <td>資訊科技、司法</td>
-      <td>司法、安全、STEM類型</td>
-      <td>興趣範圍由單一轉為多元，偏好實務與應用導向領域增強</td>
-    </tr>
-  </tbody>
-</table>
+        <h3>專業職能診斷</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>專業職能項目</th>
+              <th>前測分數</th>
+              <th>後測分數</th>
+              <th>差異說明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>進行教學／訓練需求評估</td>
+              <td>4.25</td>
+              <td>4.25</td>
+              <td>維持穩定，具備良好的需求分析與規劃能力</td>
+            </tr>
+            <tr>
+              <td>規劃教學策略及內容</td>
+              <td>4.00</td>
+              <td>4.50</td>
+              <td>明顯提升，成為優勢能力，教學邏輯與設計力增強</td>
+            </tr>
+            <tr>
+              <td>發展設計教學內容及教材</td>
+              <td>4.00</td>
+              <td>4.00</td>
+              <td>表現穩定，具備基本教材設計能力</td>
+            </tr>
+            <tr>
+              <td>執行教學活動</td>
+              <td>3.67</td>
+              <td>3.33</td>
+              <td>分數略降，表示實際教學操作經驗仍需累積</td>
+            </tr>
+            <tr>
+              <td>規劃及進行教學評量</td>
+              <td>4.00</td>
+              <td>4.00</td>
+              <td>穩定表現，掌握基本評量設計與應用概念</td>
+            </tr>
+            <tr>
+              <td><strong>整體平均分數</strong></td>
+              <td><strong>4.00</strong></td>
+              <td><strong>4.00</strong></td>
+              <td>整體維持穩定，具備教學基本能力</td>
+            </tr>
+          </tbody>
+        </table>
 
-       <p>
-        後測結果顯示職涯興趣類型更多元化，從原先偏重社會與藝術類型，轉向包括「旅遊休閒」、「資訊科技」、「司法」、<br>
-         「建築營造」等應用與實作取向領域，代表對未來職涯的開放度提升，且樂於嘗試不同職場風格。
-</p>
+        <p>
+          本次後測雖整體平均分與前測相同，但「規劃教學策略及內容」由中等能力提升為優勢能力，<br>
+          顯示近期在教案設計與教學理念上有明顯進步，可能受益於參與的教學活動設計與課程學習。<br>
+          相對地，「執行教學活動」分數下降，反映實際面對學生教學時仍需加強，如口語表達、現場掌控與互動節奏，<br>
+          建議增加模擬教學或實務演練機會，以提升現場教學表現。
+        </p>
+      </section>
 
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>職業性格代碼</th>
-      <th>前測結果</th>
-      <th>後測結果</th>
-      <th>變化分析</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>第一位</td>
-      <td>R（實用型）</td>
-      <td>I（研究型）</td>
-      <td>思考導向興趣增加，追求理性與知性</td>
-    </tr>
-    <tr>
-      <td>第二位</td>
-      <td>I（研究型）</td>
-      <td>R（實用型）</td>
-      <td>實作動手能力仍為核心特質之一</td>
-    </tr>
-    <tr>
-      <td>第三位</td>
-      <td>E（企業行）</td>
-      <td>S（社會型）</td>
-      <td>保留助人與合作特質，整體性格穩定</td>
-    </tr>
-    <tr>
-      <td>合併代碼</td>
-      <td>RIE</td>
-      <td>IRS</td>
-      <td>職業性格類型變化不大但順序轉換，顯示個人風格更偏向思辨與探索性質</td>
-    </tr>
-  </tbody>
-</table>
+      <!-- ********************************* Chapter 5 ********************************* -->
+      <section id="chapter5">
+        <h2>自我職涯發展優勢劣勢分析</h2>
 
-      <p>
-        在三月的時候本來是RIE（實用型、研究型、企業行）並且實物的分數高達10分（pr97），<br>
-        在五月後側轉換為IRS（研究型、實用型、社會型）但實務分數依然較高94>研究型90，<br>
-        所以以分數來看蠻符合我小時候學習木工、樂高、到現在兼職網球教練，都是一個偏向實務應用的部分，<br>
-        我也喜歡與人相處互動的模式，所以以現階段我可能可以多找類似性質的職業
-      </p>
-      
-<h3>職場共通職能</h3>
+        <h3>優勢與劣勢分析表</h3>
+        <button onclick="toggleTable()">優劣勢表格（點擊展開/收起）</button>
+        <div class="table-wrapper" id="tableBox" style="display: none;">
+          <table>
+            <thead>
+              <tr>
+                <th>優勢</th>
+                <th>劣勢</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><i class="fas fa-clock"></i> 時間規劃能力</td>
+                <td><i class="fas fa-question-circle"></i> 決策猶豫與過度分析</td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-heartbeat"></i> 高度韌性與抗壓性</td>
+                <td><i class="fas fa-language"></i> 外語能力</td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-layer-group"></i> 跨領域整合潛力</td>
+                <td><i class="fas fa-balance-scale"></i> 過度自我要求，影響身心平衡</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>職能項目</th>
-      <th>前測分數</th>
-      <th>後測分數</th>
-      <th>能力等級</th>
-      <th>分析說明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>人際互動</td>
-      <td>4.5</td>
-      <td>4.5</td>
-      <td>優勢能力</td>
-      <td>穩定保持高分，展現良好人際理解與互動技巧</td>
-    </tr>
-    <tr>
-      <td>問題解決</td>
-      <td>4.0</td>
-      <td>4.33</td>
-      <td>優勢能力</td>
-      <td>有成長，代表面對問題時能冷靜分析、有效回應</td>
-    </tr>
-    <tr>
-      <td>持續學習</td>
-      <td>4.0</td>
-      <td>4.29</td>
-      <td>優勢能力</td>
-      <td>積極進取，對學習新知具熱忱與實踐動力</td>
-    </tr>
-    <tr>
-      <td>創新</td>
-      <td>3.71</td>
-      <td>4.0</td>
-      <td>優勢能力</td>
-      <td>表現進步，顯示具備創意思維與應變能力</td>
-    </tr>
-    <tr>
-      <td>團隊合作</td>
-      <td>3.86</td>
-      <td>3.86</td>
-      <td>中等能力</td>
-      <td>穩定發展，仍可強化主動領導與協調溝通能力</td>
-    </tr>
-    <tr>
-      <td>溝通表達</td>
-      <td>3.71</td>
-      <td>3.86</td>
-      <td>中等能力</td>
-      <td>稍有提升，未來可加強書面與正式表達能力</td>
-    </tr>
-    <tr>
-      <td>工作責任及紀律</td>
-      <td>3.86</td>
-      <td>3.86</td>
-      <td>中等能力</td>
-      <td>穩定，建議提升抗壓與時間管理能力</td>
-    </tr>
-    <tr>
-      <td>資訊科技應用</td>
-      <td>3.43</td>
-      <td>3.5</td>
-      <td>中等偏低</td>
-      <td>得分最低，須補強數位工具操作與資訊素養</td>
-    </tr>
-  </tbody>
-</table>
+        <h3>優勢</h3>
+        <ul>
+          <li>
+            <b>時間規劃能力</b><br>
+            自小接受運動員訓練，同時被要求課業表現不能落後，長期處於多重角色。<br>
+            這讓我培養出良好的時間管理能力。在相同時間內，我能妥善安排學習、訓練與休息，<br>
+            完成更多任務且不影響成效，成為我在學業與職場間取得平衡的重要基礎。
+          </li>
+          <br>
+          <li>
+            <b>高度韌性與抗壓性</b><br>
+            身為運動員，堅持與韌性是基本素養。無論遇到艱困環境、競爭對手干擾或外在壓力，<br>
+            我都能專注在自己該完成的目標上，不輕言放棄。<br>
+            這種心態已內化為我的核心信念，使我在面對生活困難時，以冷靜、穩定態度面對挑戰並尋求突破。<br>
+            相較球場上的激烈對抗，生活中的困境更能被我視為轉機，而非阻礙。
+          </li>
+          <br>
+          <li>
+            <b>跨領域整合潛力</b><br>
+            具備體育與心理雙主修背景，擁有跨領域的視角與資源整合能力。<br>
+            未來無論創辦網球俱樂部、從事教學管理，或進入人力資源與運動心理輔導等職位，<br>
+            都能發揮雙領域專長，提升價值與競爭力。
+          </li>
+        </ul>
 
+        <h3>劣勢</h3>
+        <ul>
+          <li>
+            <b>決策猶豫與過度分析</b><br>
+            在需要快速做出選擇時，我傾向追求全面性思考與完美規劃，<br>
+            有時會陷入過度分析、猶豫不決而錯失最佳行動時機。<br>
+            意識到這點後，我正積極調整決策模式，學習在保有理性分析的基礎上，更果斷地做出選擇。<br>
+            同時避免因衝動做出後悔決策，期許未來能兼具理性與效率，做出前瞻性判斷。
+          </li>
+          <br>
+          <li>
+            <b>外語能力</b><br>
+            在國際化社會與職場環境中，外語能力是關鍵競爭力。目前我在英語溝通與理解上仍有進步空間，<br>
+            尚未能流利應對跨國交流與專業應用。此外，我也希望未來能學習日語等第二外語，拓展更多國際機會。<br>
+            強化語言能力不僅能提升海外實習或國際合作表現，也有助於將體育教學或事業發展延伸至不同國家與文化，<br>
+            打開更廣闊的職涯視野。
+          </li>
+          <br>
+          <li>
+            <b>過度自我要求，影響身心平衡</b><br>
+            由於習慣對自己設定高標準，總希望每件事都做到最好，容易陷入過度追求完美的狀態。<br>
+            這心態雖能提升成果品質，但也常使我處於高度緊繃與疲憊狀態，缺乏適當休息與彈性，<br>
+            導致身心過度勞累。我意識到長期如此對職涯發展並不健康，<br>
+            正學習在保持效率與抗壓性的同時，適度放寬對自己的要求，安排彈性休息，並透過課餘活動或自我調適方式，<br>
+            維持穩定且可持續的工作與生活節奏。
+          </li>
+        </ul>
+      </section>
 
-     
-      <p>
-        本次測驗結果顯示，我在人際互動、問題解決、創新與持續學習等能力表現亮眼，屬於「優勢能力」範疇，<br>
-        顯示我具備良好的人際敏感度、解決問題的條理性以及學習動力，這些能力對於未來職場上的適應與表現都相當有利。<br>
-而在團隊合作、溝通表達、工作責任與紀律等方面，表現穩定，屬於中等水準。這代表我在基本的職場合作與溝通上已具備能力，<br>
-        但在角色扮演上偏向執行者，仍需加強主動發言、明確表達與團體中的整合引導能力，進一步展現領導潛能。<br>
-「資訊科技應用」一項仍是目前最需補強的部分。分數在前後測皆落於3.5分以下，顯示我對於如文書處理、簡報製作、雲端協作或數據處理等工具的應用仍有落差，
-        建議我應積極選修相關課程、使用實作工具進行操作練習，提升數位工作的熟練度與效率。<br>
-      
-      </p>
+      <!-- ********************************* Chapter 6 ********************************* -->
+      <section id="chapter6">
+        <h2>未來實習/求職規劃</h2>
+        <h3>規劃</h3>
+        <ol>
+          <li>
+            <p>
+              面對即將到來的實習機會，我預計前往中國大陸的網球俱樂部，展開為期半個月至一個月的實地實習。<br>
+              此次規劃核心目標是透過第一線參與與觀察，深入了解當地網球俱樂部在營運模式、課程設計與學員經營方面之實際操作與管理文化。<br>
+              透過對比台灣與中國地區場館經營策略異同，我希望評估自身是否具備在地發展潛力，並為未來職涯擴展鋪路。<br>
+              即便實習後不留在當地，我仍期望藉此機會建立跨區人脈網絡，累積海外視野與實務經驗，作為未來創業重要資本。<br>
+              返回台灣後，我將持續深耕嘉義地區，以民雄為據點，逐步擴大教學團隊與學生群體，朝建立制度化、品牌化的網球教學體系邁進。<br>
+              我的目標是打造一支兼具專業素養與在地連結的團隊，將境外實習心得應用於本土市場，提升營運效率與競爭力。
+            </p>
+          </li>
+          <br>
+          <li>
+            <p>
+              除了私部門經驗累積，我也意識到僅倚賴民間資源難以全面掌握體育產業政策脈動與公共資源運作邏輯。<br>
+              因此，我希望能到公部門或相關企業實習，例如教育部體育署今年九月升格為「體育部」，預期將出現新的人才需求與政策革新。<br>
+              透過參與體育政策研擬或推動實務，我將更全面理解國家體育資源分配結構、公私協作模式，並評估自己未來是否適合在體制內發展。
+            </p>
+          </li>
+          <br>
+          <li>
+            <p>
+              基於我大學期間雙主修心理學背景，我也計畫拓展人力資源（HR）相關實習機會，探索團隊管理、人才招募、<br>
+              績效制度設計與心理健康議題在組織中的實務運作。這不僅有助於未來網球團隊組織效能提升，<br>
+              也為職涯開啟另一條可能道路。若未來創業進展不如預期，這樣的專業結合將使我能靈活轉向企業內部發展，<br>
+              結合體育、心理與人資，延展職涯彈性。
+            </p>
+          </li>
+        </ol>
 
-      <h3>專業職能診斷</h3>
-
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>專業職能項目</th>
-      <th>前測分數</th>
-      <th>後測分數</th>
-      <th>差異說明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>進行教學／訓練需求評估</td>
-      <td>4.25</td>
-      <td>4.25</td>
-      <td>維持穩定，具備良好的需求分析與規劃能力</td>
-    </tr>
-    <tr>
-      <td>規劃教學策略及內容</td>
-      <td>4.00</td>
-      <td>4.50</td>
-      <td>明顯提升，已成為優勢能力，代表教學邏輯與設計力增強</td>
-    </tr>
-    <tr>
-      <td>發展設計教學內容及教材</td>
-      <td>4.00</td>
-      <td>4.00</td>
-      <td>表現穩定，具備基本教材設計能力</td>
-    </tr>
-    <tr>
-      <td>執行教學活動</td>
-      <td>3.67</td>
-      <td>3.33</td>
-      <td>分數略降，顯示實際教學操作經驗仍有待累積</td>
-    </tr>
-    <tr>
-      <td>規劃及進行教學評量</td>
-      <td>4.00</td>
-      <td>4.00</td>
-      <td>穩定表現，已掌握基本評量設計與應用概念</td>
-    </tr>
-    <tr>
-      <td><strong>整體平均分數</strong></td>
-      <td><strong>4.00</strong></td>
-      <td><strong>4.00</strong></td>
-      <td>整體維持穩定，具備教學基本能力</td>
-    </tr>
-  </tbody>
-</table>
-
-      
-      <p>
-        本次後測雖整體平均分與前次相同，但其中「規劃教學策略及內容」由中等能力提升為優勢能力，<br>
-        顯示這段時間在教案設計與教學理念上有明顯進步，可能受益於近期所參與的教學活動設計與課程學習。<br>
-相對地，「執行教學活動」分數下降，反映出實際面對學生進行教學時仍感不足，如口語表達、現場掌控與互動節奏等，<br>
-        未來須增加模擬教學機會或參與實務演練，以提升現場教學表現。
-      </p>
-    
-    </section>
- <!-- ********************************* Chapter 5 ********************************* -->
-       <section id="chapter5">
-      <h2>自我職涯發展優勢劣勢分析</h2>
-    
-
-  <h3>優勢與劣勢分析表</h3>
-  <button onclick="toggleTable()">優劣勢表格（點擊展開/收起）</button>
-
-  <div class="table-wrapper" id="tableBox">
-    <table>
-      <thead>
-        <tr>
-          <th>優勢</th>
-          <th>劣勢</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><i class="fas fa-clock"></i> 時間規劃能力</td>
-          <td><i class="fas fa-question-circle"></i> 決策猶豫與過度分析</td>
-        </tr>
-        <tr>
-          <td><i class="fas fa-heartbeat"></i> 高度韌性與抗壓性</td>
-          <td><i class="fas fa-language"></i> 外語能力</td>
-        </tr>
-        <tr>
-          <td><i class="fas fa-layer-group"></i> 跨領域整合潛力</td>
-          <td><i class="fas fa-balance-scale"></i> 過度自我要求，影響身心平衡</td>
-        </tr>
-      </tbody>
-    </table>
+        <p>
+          綜合而言，我的實習與職涯策略以「創業」為核心，透過「實戰經驗」累積、「跨區域人脈」拓展與「多元專業」整合，<br>
+          力求在體育領域開創個人定位與職涯價值。我同時預留職涯轉向及多軌並進空間，確保能在變動環境中穩健前行。
+        </p>
+      </section>
+    </main>
   </div>
 
-           <h3>優勢</h3>
+  <!-- ===== 底部腳本：高亮與表格顯示控制 ===== -->
+  <script>
+    // 滾動到對應章節時，更新 nav 的 active 狀態
+    const navLinks = document.querySelectorAll('nav a');
+    const sections = document.querySelectorAll('main section');
 
-          <ul>
-     
-<li>
-  <b>時間規劃能力</b><br>
-自小接受運動員的訓練，同時也被要求課業表現不能落後，長期處於多重角色的狀態中，<br>
-  讓我培養出良好的時間管理能力。在與他人相同的時間內，我能妥善安排學習、訓練與休息，完成更多任務且不影響成效。<br>
-  這種高效的自我規劃能力，也成為我在學業與職場間取得平衡的重要基礎。
-  </li>
-            <br>
-         <li>
-<b>高度韌性與抗壓性</b><br>
-身為運動員，堅持與韌性是基本素養。無論遇到多艱困的環境、競爭對手的干擾或外在壓力，<br>
-           我都能專注在自己該完成的目標上，不輕言放棄。<br>
-           這種心態已內化為我處事的核心信念，使我在面對人生各種困難時，<br>
-           總能以冷靜、穩定的態度面對挑戰、尋求突破。相較於球場上的激烈對抗，<br>
-           生活中的困境反而更能被我視為轉機，而非阻礙。
-         </li>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const id = entry.target.getAttribute('id');
+        const navLink = document.querySelector(`nav a[href="#${id}"]`);
+        if (entry.isIntersecting) {
+          navLink.classList.add('active');
+        } else {
+          navLink.classList.remove('active');
+        }
+      });
+    }, { threshold: 0.3 });
 
-             <br>
- 
-         <li>
-           <b>跨領域整合潛力</b><br>
-具備體育與心理雙主修背景，讓我擁有跨領域的視角與資源整合的能力。<br>
-           未來無論是在創辦網球俱樂部、從事教學管理，或是進入人力資源與運動心理輔導等職位，<br>
-           都能發揮雙領域專長，提升價值與競爭力。
-         </li>
- </ul>
-  
-  <h3>劣勢</h3>
+    sections.forEach((sec) => observer.observe(sec));
 
-         <ul>
-      <li>
-        <b>決策猶豫與過度分析</b><br>
-在面對需要快速做出選擇的情境時，我傾向追求全面性的思考與完美的規劃，<br>
-        有時會陷入過度分析、猶豫不決的狀態，進而錯失最佳行動時機。<br>
-        意識到這一點後，我正積極調整自己的決策模式，學習如何在保有理性分析的基礎上，<br>
-        更果斷地做出選擇。同時也努力避免另一極端——因衝動而產生後悔的決策，期許自己在未來能兼具理性與效率，<br>
-        做出更具前瞻性的判斷。
-      </li>
-
-            <br>
-
-         <li>
-         <b>外語能力</b><br>
-在當前高度國際化的社會與職場環境中，外語能力已成為基本且關鍵的競爭力。目前我在英語溝通與理解上仍有進步空間，<br>
-         尚未能流利應對跨國交流與專業應用。此外，我也希望未來能進一步學習如日語等第二外語，拓展更多國際機會。<br>
-         強化語言能力不僅能提升自身在海外實習或國際合作中的表現，也有助於未來將體育教學或事業發展延伸至不同國家與文化，<br>
-         打開更廣闊的職涯視野。
-         </li>
-
-            <br>
-
-         <li>
-           <b>過度自我要求，影響身心平衡</b><br>
-由於習慣對自己設定高標準，總希望每件事都做到最好，容易陷入過度追求完美的狀態。<br>
-           這樣的心態雖然能提升成果品質，但也常使自己處於高度緊繃與疲憊的狀態，<br>
-           缺乏適當的休息與彈性，導致身心過度勞累。我意識到長期下來這樣的模式對職涯發展並不健康，<br>
-           因此正學習在保持效率與抗壓性的同時，適度放寬對自己的要求，安排彈性的休息時間，<br>
-           並透過課餘活動或自我調適方式，維持穩定且可持續的工作與生活節奏。
-         </li>
-         </ul>
-
-    </section>
-     <!-- ********************************* Chapter 6 ********************************* -->
-   <section id="chapter6">
-      <h2>未來實習/求職規劃</h2>
-      <h3>規劃</h3>
-
-      <p>
-        
-      <ol>
-        <li>面對即將到來的實習機會，我預計將前往中國大陸的網球俱樂部，展開為期半個月至一個月的實地實習。<br>
-          此次規劃的核心目標，是透過第一線的參與與觀察，深入了解當地網球俱樂部在營運模式、課程設計與學員經營方面的<br>
-          實際操作與管理文化。<br>
-          透過對比台灣與中國地區在場館經營策略上的異同，我希望評估自身是否具備在地發展的潛力，並為未來職涯擴展鋪路。<br>
-即便實習後不選擇留在當地，我仍期望能借此機會建立跨地區的人脈網絡，累積海外視野與實務經驗，作為未來創業的重要資本。<br>
-          返台後，我將持續深耕嘉義地區，特別是以民雄為據點，逐步擴大教學團隊與學生群體，並朝向建立一個制度化、<br>
-          品牌化的網球教學體系邁進。<br>
-          我的目標是打造一個兼具專業素養與在地連結的團隊組織，將境外實習所得應用於本土場域，進而提升營運效率與市場競爭力。
-</li>
-        <br>
-        <li>
-          除了私部門的經驗累積，我也意識到若僅倚賴民間資源，難以全面掌握體育產業的政策脈動與公共資源的運作邏輯。<br>
-          我也希望可以到公部門或是相關企業實習機會，特別是教育部體育署即將於今年九月升格為「體育部」，預期將出現新的人才需求與政策革新。<br>
-          透過參與體育政策的研擬或推動實務，我將能更全面理解國家體育資源的分配結構、公私協作模式，並評估自己未來是否適合於體制內發展。
-        </li>
-
-        <br>
-        
-        <li>
-          基於我在大學期間雙主修心理學的背景，我也計畫拓展人力資源（HR）相關的實習機會，以探索團隊管理、人才招募、<br>
-          績效制度設計與心理健康等議題在組織中的實務運作。這不僅有助於我未來建立與經營網球團隊時提升組織效能，<br>
-          也為我的職涯開啟另一條可能的路徑。<br>
-          若未來創業發展不如預期，這樣的專業結合將使我能靈活轉向企業內部發展，結合體育、心理與人資，延展職涯彈性。
-</li>
-      </ol>
-
-<p>
-綜合而言，我的實習與職涯發展策略以「創業」為核心主軸，透過「實戰經驗」的累積、「跨區域人脈」的拓展與「多元專業」的整合，力求在體育領域中開創個人定位與職涯價值。我也預留了職涯轉向與多軌並進的空間，確保能在變動的環境中穩健前行。
-</p>
-     
-      </p>
-      
-    </section>
-
-  </main>
-</div>
-
-<!-- ===== 底下不用管 ===== -->
-<script>
-  const navLinks = document.querySelectorAll('nav a');
-  const sections = document.querySelectorAll('main section');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const id = entry.target.getAttribute('id');
-      const navLink = document.querySelector(`nav a[href="#${id}"]`);
-      if (entry.isIntersecting) {
-        navLink.classList.add('active');
-      } else {
-        navLink.classList.remove('active');
-      }
-    });
-  }, { threshold: 0.25 });
-
-  sections.forEach((sec) => observer.observe(sec));
-
-  function toggleTable() {
+    // 切換優劣勢表格顯示
+    function toggleTable() {
       const tableBox = document.getElementById("tableBox");
       if (tableBox.style.display === "none" || tableBox.style.display === "") {
         tableBox.style.display = "block";
@@ -679,8 +742,6 @@
         tableBox.style.display = "none";
       }
     }
-  
-</script>
-<!-- ================= 結束 ================= -->
+  </script>
 </body>
 </html>
